@@ -101,7 +101,7 @@ const createFilterTemplate = () => {
 
 const createBoardTemplate = () => {
   return (
-      `<section class="board container">
+    `<section class="board container">
           <div class="board__filter-list">
               <a href="#" class="board__filter">SORT BY DEFAULT</a>
               <a href="#" class="board__filter">SORT BY DATE up</a>

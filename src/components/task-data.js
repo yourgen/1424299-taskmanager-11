@@ -1,0 +1,3 @@
+const TASKS = [{ }, { }, { }];
+
+export {TASKS};

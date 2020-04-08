@@ -1,4 +1,16 @@
-export const MONTH_NAMES = [
+export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+export const DAYS = {
+  "mo": false,
+  "tu": false,
+  "we": false,
+  "th": false,
+  "fr": false,
+  "sa": false,
+  "su": false,
+};
+
+export const MONTHS = [
   `January`,
   `February`,
   `March`,

@@ -8,3 +8,11 @@ export const formatTime = (date) => {
 
   return `${hours}:${minutes}`;
 };
+
+export const randomNumber = (min, max) => {
+  return min + Math.floor(Math.random() * (max - min));
+};
+
+export const arrPicker = (arr) => {
+  return arr[randomNumber(0, arr.length)];
+};

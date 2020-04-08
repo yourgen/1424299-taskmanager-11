@@ -1,12 +1,16 @@
+import {MONTH_NAMES} from "../const.js";
+import {formatTime} from "../utils.js";
+
 export const taskTemplate = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
-  const date = `23 September`;
-  const time = `16:15`;
 
-  const repeatClass = `card--repeat`;
-  const deadlineClass = `card--deadline`;
-  const checkArchivedBtn = isArchive ? `` : `card__btn--disabled`;
-  const checkFavoriteBtn = isFavorite ? `` : `card__btn--disabled`;
+  const date = dueDate ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const time = dueDate ? formatTime(dueDate) : ``;
+
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const deadlineClass = dueDate instanceof Date && dueDate < Date.now() ? `card--deadline` : ``;
+  const checkArchived = isArchive ? `` : `card__btn--disabled`;
+  const checkFavorite = isFavorite ? `` : `card__btn--disabled`;
 
   return (
     `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
@@ -16,11 +20,10 @@ export const taskTemplate = (task) => {
             <button type="button" class="card__btn card__btn--edit">
                 edit
             </button>
-            <button type="button" class="card__btn card__btn--archive ${checkArchivedBtn}">
+            <button type="button" class="card__btn card__btn--archive ${checkArchived}">
                 archive
             </button>
-            <button type="button" 
-            class="card__btn card__btn--favorites card__btn--disabled ${checkFavoriteBtn}">
+            <button type="button" class="card__btn card__btn--favorites ${checkFavorite}">
                 favorites
             </button>
           </div>

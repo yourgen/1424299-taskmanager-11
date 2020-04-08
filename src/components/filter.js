@@ -10,7 +10,7 @@ const filterMarkupTemplate = (filter, isChecked) => {
       ${isChecked ? `checked` : ``}
     />
     <label for="filter__${name}" class="filter__label">
-      ${name}<span class="filter__${name}-count">${count}</span>
+      ${name}&nbsp;<span class="filter__${name}-count">${count}</span>
     </label>`
   );
 };

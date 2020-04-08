@@ -1,4 +1,4 @@
-import {TASK_COUNT} from './data/task-data';
+import {TASK_COUNT, TASK_COUNT_START, TASK_COUNT_LOAD} from './data/task-data';
 import {generateTasks} from './data/task-data';
 import {generateFilters} from './data/filter-data';
 
@@ -28,8 +28,25 @@ const boardElement = siteMainElement.querySelector(`.board`);
 
 render(taskListElement, taskEditTemplate(tasks[0]));
 
-tasks.slice(1, tasks.length).forEach((task) => {
-  render(taskListElement, taskTemplate(task));
-});
+let showingTasksCount = TASK_COUNT_START;
+
+tasks
+  .slice(1, showingTasksCount)
+  .forEach((task) => render(taskListElement, taskTemplate(task)));
 
 render(boardElement, loadMoreBtnTemplate());
+
+const loadMoreBtn = boardElement.querySelector(`.load-more`);
+
+loadMoreBtn.addEventListener(`click`, () => {
+  const prevTasksCount = showingTasksCount;
+  showingTasksCount = showingTasksCount + TASK_COUNT_LOAD;
+
+  tasks
+    .slice(prevTasksCount, showingTasksCount)
+    .forEach((task) => render(taskListElement, taskTemplate(task)));
+
+  if (showingTasksCount >= tasks.length) {
+    loadMoreBtn.remove();
+  }
+});

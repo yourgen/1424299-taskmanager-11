@@ -2,7 +2,9 @@ import {COLORS, DAYS} from "../const.js";
 import {randomNumber} from "../utils.js";
 import {arrPicker} from "../utils.js";
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 24;
+const TASK_COUNT_START = 8;
+const TASK_COUNT_LOAD = 4;
 
 const TASK_NAMES = [
   `Изучить теорию`, `Сделать домашку`, `Пройти интенсив на соточку`
@@ -33,7 +35,6 @@ const generateTask = () => {
     color: arrPicker(COLORS),
     isFavorite: Math.random() > 0.5,
     isArchive: Math.random() > 0.5,
-    //add data keys
   };
 };
 
@@ -43,4 +44,4 @@ const generateTasks = (count) => {
     .map(generateTask);
 };
 
-export {TASK_COUNT, generateTask, generateTasks};
+export {TASK_COUNT, TASK_COUNT_START, TASK_COUNT_LOAD, generateTasks};

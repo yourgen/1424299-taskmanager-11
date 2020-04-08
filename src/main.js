@@ -1,4 +1,6 @@
 import {TASKS} from './components/task-data';
+import {generateFilters} from './data/filter-data';
+
 import {menuTemplate} from './components/menu';
 import {filterTemplate} from './components/filter';
 import {boardTemplate} from './components/board';
@@ -13,8 +15,10 @@ const render = (container, template, place = `beforeend`) => {
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
+const filters = generateFilters();
+
 render(siteHeaderElement, menuTemplate());
-render(siteMainElement, filterTemplate());
+render(siteMainElement, filterTemplate(filters));
 render(siteMainElement, boardTemplate());
 
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);

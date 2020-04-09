@@ -90,7 +90,10 @@ export const taskEditTemplate = (task) => {
             <div class="card__details">
               <div class="card__dates">
                 <button class="card__date-deadline-toggle" type="button">
-                    date: <span class="card__date-status">yes</span>
+                    date: 
+                    <span class="card__date-status">
+                      ${dueDate ? `yes` : `no`}
+                    </span>
                 </button>
 
                 <fieldset class="card__date-deadline">

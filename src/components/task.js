@@ -1,10 +1,10 @@
-import {MONTHS} from "../const.js";
-import {formatTime} from "../utils.js";
+import {months} from "../data/common-data.js";
+import {formatTime, formatDate} from "../utils.js";
 
 export const taskTemplate = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
 
-  const date = dueDate ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
+  const date = dueDate ? formatDate(dueDate, months) : ``;
   const time = dueDate ? formatTime(dueDate) : ``;
 
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;

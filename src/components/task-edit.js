@@ -1,5 +1,5 @@
-import {COLORS, MONTHS} from "../const.js";
-import {formatTime} from "../utils.js";
+import {defaultColors, months} from "../data/common-data.js";
+import {formatTime, formatDate} from "../utils.js";
 
 const repeatingDaysContainer = (repeatingDays) => {
   return (
@@ -59,7 +59,7 @@ const colorsMarkup = (colors, currentColor) => {
 export const taskEditTemplate = (task) => {
   const {description, dueDate, repeatingDays, color} = task;
 
-  const date = dueDate ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
+  const date = dueDate ? formatDate(dueDate, months) : ``;
   const time = dueDate ? formatTime(dueDate) : ``;
 
   const checkRepeat = (repeat, noRepeat = ``) => Object.values(repeatingDays).some(Boolean) ? repeat : noRepeat;
@@ -122,7 +122,7 @@ export const taskEditTemplate = (task) => {
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                ${colorsMarkup(COLORS, color)}
+                ${colorsMarkup(defaultColors, color)}
               </div>
             </div>
           </div>

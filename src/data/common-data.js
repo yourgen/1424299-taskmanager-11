@@ -1,6 +1,6 @@
-export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+export const defaultColors = [`black`, `yellow`, `blue`, `green`, `pink`];
 
-export const DAYS = {
+export const days = {
   "mo": false,
   "tu": false,
   "we": false,
@@ -10,7 +10,7 @@ export const DAYS = {
   "su": false,
 };
 
-export const MONTHS = [
+export const months = [
   `January`,
   `February`,
   `March`,

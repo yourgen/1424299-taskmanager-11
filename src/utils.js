@@ -9,10 +9,17 @@ export const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-export const randomNumber = (min, max) => {
+export const formatDate = (date, months) => {
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+
+  return `${day} ${month}`;
+};
+
+export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 
 export const arrPicker = (arr) => {
-  return arr[randomNumber(0, arr.length)];
+  return arr[getRandomNumber(0, arr.length)];
 };

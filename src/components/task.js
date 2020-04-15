@@ -1,7 +1,7 @@
 import {months} from "../data/common-data.js";
-import {formatTime, formatDate} from "../utils.js";
+import {createElement, formatTime, formatDate} from "../utils.js";
 
-export const taskTemplate = (task) => {
+const taskTemplate = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
 
   const date = dueDate ? formatDate(dueDate, months) : ``;
@@ -55,3 +55,27 @@ export const taskTemplate = (task) => {
     </article>`
   );
 };
+
+export default class Task {
+  constructor(task) {
+    this._task = task;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return taskTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

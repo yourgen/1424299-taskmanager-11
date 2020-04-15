@@ -5,6 +5,7 @@ import {generateFilters} from './data/filter-data';
 import {menuTemplate} from './components/menu';
 import {filterTemplate} from './components/filter';
 import {boardTemplate} from './components/board';
+import {sortTemplate} from './components/sorting';
 import {taskEditTemplate} from './components/task-edit';
 import {taskTemplate} from './components/task';
 import {loadMoreBtnTemplate} from './components/loadmore-btn';
@@ -26,6 +27,7 @@ render(siteMainElement, boardTemplate());
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);
 const boardElement = siteMainElement.querySelector(`.board`);
 
+render(boardElement, sortTemplate(), `afterbegin`);
 render(taskListElement, taskEditTemplate(tasks[0]));
 
 let showingTasksCount = TASK_COUNT_START;

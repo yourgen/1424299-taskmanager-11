@@ -5,7 +5,7 @@ import {generateFilters} from './data/filter-data';
 import {menuTemplate} from './components/menu';
 import {filterTemplate} from './components/filter';
 import {boardTemplate} from './components/board';
-import {sortTemplate} from './components/sorting';
+import {sortTemplate} from './components/sort';
 import {taskEditTemplate} from './components/task-edit';
 import {taskTemplate} from './components/task';
 import {loadMoreBtnTemplate} from './components/loadmore-btn';

@@ -34,7 +34,34 @@ const renderTask = (taskListElement, task) => {
   render(taskListElement, taskComponent.getElement(), renderPosition.BEFOREEND);
 };
 
-const renderBoard = () => {};
+const renderBoard = (boardComponent, tasks) => {
+  render(boardComponent.getElement(), new Sort().getElement(), renderPosition.BEFOREEND);
+  render(boardComponent.getElement(), new Tasks().getElement(), renderPosition.BEFOREEND);
+
+  const taskListElement = boardComponent.getElement().querySelector(`.board__tasks`);
+
+  let showingTasksCount = TASK_COUNT_START;
+  tasks
+    .slice(0, showingTasksCount)
+    .forEach((task) => renderTask(taskListElement, task));
+
+  const loadMoreBtnComponent = new LoadMoreBtn();
+  render(boardComponent.getElement(), loadMoreBtnComponent.getElement(), renderPosition.BEFOREEND);
+
+  loadMoreBtnComponent.getElement().addEventListener(`click`, () => {
+    const prevTasksCount = showingTasksCount;
+    showingTasksCount = showingTasksCount + TASK_COUNT_LOAD;
+
+    tasks
+      .slice(prevTasksCount, showingTasksCount)
+      .forEach((task) => renderTask(taskListElement, task));
+
+    if (showingTasksCount >= tasks.length) {
+      loadMoreBtnComponent.getElement().remove();
+      loadMoreBtnComponent.removeElement();
+    }
+  });
+};
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);

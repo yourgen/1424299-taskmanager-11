@@ -6,12 +6,35 @@ import Menu from './components/menu';
 import Filter from './components/filter';
 import Board from './components/board';
 import Sort from './components/sort';
-import TaskEdit from './components/task-edit';
 import Task from './components/task';
 import Tasks from './components/tasks';
+import TaskEdit from './components/task-edit';
 import LoadMoreBtn from './components/loadmore-btn';
 
 import {render, renderPosition} from "./utils.js";
+
+const renderTask = (taskListElement, task) => {
+  const onEditBtnClick = () => {
+    taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+  };
+
+  const onEditFormSubmit = (evt) => {
+    evt.preventDefault();
+    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+  };
+
+  const taskComponent = new Task(task);
+  const editBtn = taskComponent.getElement().querySelector(`.card__btn--edit`);
+  editBtn.addEventListener(`click`, onEditBtnClick);
+
+  const taskEditComponent = new TaskEdit(task);
+  const editForm = taskEditComponent.getElement().querySelector(`form`);
+  editForm.addEventListener(`submit`, onEditFormSubmit);
+
+  render(taskListElement, taskComponent.getElement(), renderPosition.BEFOREEND);
+};
+
+const renderBoard = () => {};
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
@@ -19,9 +42,10 @@ const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 const filters = generateFilters();
 const tasks = generateTasks(TASK_COUNT);
 
-render(siteHeaderElement, menuTemplate());
-render(siteMainElement, filterTemplate(filters));
-render(siteMainElement, boardTemplate());
+render(siteHeaderElement, new Menu().getElement(), renderPosition.BEFOREEND);
+render(siteMainElement, new Board(filters).getElement(), renderPosition.BEFOREEND);
+
+/* render(siteMainElement, filterTemplate(filters));
 
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);
 const boardElement = siteMainElement.querySelector(`.board`);
@@ -50,4 +74,4 @@ loadMoreBtn.addEventListener(`click`, () => {
   if (showingTasksCount >= tasks.length) {
     loadMoreBtn.remove();
   }
-});
+});*/

@@ -23,3 +23,10 @@ export const getRandomNumber = (min, max) => {
 export const arrPicker = (arr) => {
   return arr[getRandomNumber(0, arr.length)];
 };
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};

@@ -2,13 +2,14 @@ import {TASK_COUNT, TASK_COUNT_START, TASK_COUNT_LOAD} from './data/task-data';
 import {generateTasks} from './data/task-data';
 import {generateFilters} from './data/filter-data';
 
-import {menuTemplate} from './components/menu';
-import {filterTemplate} from './components/filter';
-import {boardTemplate} from './components/board';
-import {sortTemplate} from './components/sort';
-import {taskEditTemplate} from './components/task-edit';
-import {taskTemplate} from './components/task';
-import {loadMoreBtnTemplate} from './components/loadmore-btn';
+import Menu from './components/menu';
+import Filter from './components/filter';
+import Board from './components/board';
+import Sort from './components/sort';
+import TaskEdit from './components/task-edit';
+import Task from './components/task';
+import Tasks from './components/tasks';
+import LoadMoreBtn from './components/loadmore-btn';
 
 import {render, renderPosition} from "./utils.js";
 

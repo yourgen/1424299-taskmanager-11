@@ -10,9 +10,7 @@ import {taskEditTemplate} from './components/task-edit';
 import {taskTemplate} from './components/task';
 import {loadMoreBtnTemplate} from './components/loadmore-btn';
 
-const render = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
-};
+import {render, renderPosition} from "./utils.js";
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);

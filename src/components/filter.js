@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const filterMarkupTemplate = (filter, isChecked) => {
   const {name, count} = filter;
 
@@ -15,7 +17,7 @@ const filterMarkupTemplate = (filter, isChecked) => {
   );
 };
 
-export const filterTemplate = (filters) => {
+const filterTemplate = (filters) => {
   const filtersMarkup = filters
     .map((item, i) => filterMarkupTemplate(item, i === 0))
     .join(`\n`);
@@ -26,3 +28,26 @@ export const filterTemplate = (filters) => {
     </section>`
   );
 };
+
+export default class Filter {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return filterTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,5 +1,5 @@
 import {defaultColors, months} from "../data/common-data.js";
-import {formatTime, formatDate} from "../utils.js";
+import {createElement, formatTime, formatDate} from "../utils.js";
 
 const repeatingDaysContainer = (repeatingDays) => {
   return (
@@ -56,7 +56,7 @@ const colorsMarkup = (colors, currentColor) => {
 
 };
 
-export const taskEditTemplate = (task) => {
+const taskEditTemplate = (task) => {
   const {description, dueDate, repeatingDays, color} = task;
 
   const date = dueDate ? formatDate(dueDate, months) : ``;
@@ -96,7 +96,7 @@ export const taskEditTemplate = (task) => {
                     </span>
                 </button>
 
-                <fieldset class="card__date-deadline">
+                ${dueDate ? `<fieldset class="card__date-deadline">
                   <label class="card__input-deadline-wrap">
                   <input
                       class="card__date"
@@ -106,7 +106,7 @@ export const taskEditTemplate = (task) => {
                       value="${date} ${time}"
                   />
                   </label>
-                </fieldset>
+                </fieldset>` : ``}
 
                 <button class="card__repeat-toggle" type="button">
                     repeat:
@@ -136,3 +136,26 @@ export const taskEditTemplate = (task) => {
     </article>`
   );
 };
+
+export default class TaskEdit {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return taskEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

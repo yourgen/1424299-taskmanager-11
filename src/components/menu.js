@@ -1,6 +1,6 @@
 import {createElement} from "../utils.js";
 
-const menuTemplate = () => {
+const getMenuTemplate = () => {
   return (
     `<section class="control__btn-wrap">
       <input
@@ -39,7 +39,7 @@ export default class Menu {
   }
 
   getTemplate() {
-    return menuTemplate();
+    return getMenuTemplate();
   }
 
   getElement() {

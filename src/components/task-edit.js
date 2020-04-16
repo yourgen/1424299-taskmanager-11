@@ -1,17 +1,17 @@
 import {defaultColors, months} from "../data/common-data.js";
 import {createElement, formatTime, formatDate} from "../utils.js";
 
-const repeatingDaysContainer = (repeatingDays) => {
+const getRepeatingDaysTemplate = (repeatingDays) => {
   return (
     `<fieldset class="card__repeat-days">
       <div class="card__repeat-days-inner">
-        ${repeatingDaysMarkup(repeatingDays)}
+        ${getRepeatingDaysMarkup(repeatingDays)}
       </div>
     </fieldset>`
   );
 };
 
-const repeatingDaysMarkup = (repeatingDays) => {
+const getRepeatingDaysMarkup = (repeatingDays) => {
   return Object.keys(repeatingDays)
     .map((day, index) => {
       const isChecked = repeatingDays[day];
@@ -32,7 +32,7 @@ const repeatingDaysMarkup = (repeatingDays) => {
     .join(`\n`);
 };
 
-const colorsMarkup = (colors, currentColor) => {
+const getColorsMarkup = (colors, currentColor) => {
   return colors
     .map((color, index) => {
       return (
@@ -56,7 +56,7 @@ const colorsMarkup = (colors, currentColor) => {
 
 };
 
-const taskEditTemplate = (task) => {
+const getTaskEditTemplate = (task) => {
   const {description, dueDate, repeatingDays, color} = task;
 
   const date = dueDate ? formatDate(dueDate, months) : ``;
@@ -96,7 +96,7 @@ const taskEditTemplate = (task) => {
                     </span>
                 </button>
 
-                ${dueDate ? `<fieldset class="card__date-deadline">
+                ${dueDate && `<fieldset class="card__date-deadline">
                   <label class="card__input-deadline-wrap">
                   <input
                       class="card__date"
@@ -106,7 +106,7 @@ const taskEditTemplate = (task) => {
                       value="${date} ${time}"
                   />
                   </label>
-                </fieldset>` : ``}
+                </fieldset>`}
 
                 <button class="card__repeat-toggle" type="button">
                     repeat:
@@ -115,14 +115,14 @@ const taskEditTemplate = (task) => {
                     </span>
                 </button>
 
-                ${checkRepeat(repeatingDaysContainer(repeatingDays))}
+                ${checkRepeat(getRepeatingDaysTemplate(repeatingDays))}
               </div>
             </div>
 
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                ${colorsMarkup(defaultColors, color)}
+                ${getColorsMarkup(defaultColors, color)}
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default class TaskEdit {
   }
 
   getTemplate() {
-    return taskEditTemplate(this._task);
+    return getTaskEditTemplate(this._task);
   }
 
   getElement() {

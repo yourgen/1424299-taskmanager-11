@@ -9,6 +9,7 @@ import Sorting from './components/sorting';
 import Task from './components/task';
 import TaskList from './components/task-list';
 import TaskEdit from './components/task-edit';
+import NoTasks from "./components/no-tasks.js";
 import LoadMoreBtn from './components/loadmore-btn';
 
 import {render, renderPosition} from "./utils.js";
@@ -50,6 +51,13 @@ const renderTask = (taskListElement, task) => {
 };
 
 const renderBoard = (boardComponent, tasks) => {
+
+  const isAllTasksArchived = tasks.every((task) => task.isArchive);
+  if (isAllTasksArchived) {
+    render(boardComponent.getElement(), new NoTasks().getElement(), renderPosition.BEFOREEND);
+    return;
+  }
+
   render(boardComponent.getElement(), new Sorting().getElement(), renderPosition.BEFOREEND);
   render(boardComponent.getElement(), new TaskList().getElement(), renderPosition.BEFOREEND);
 

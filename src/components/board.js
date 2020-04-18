@@ -1,10 +1,6 @@
 import {createElement} from "../utils.js";
 
-const boardTemplate = () => {
-  return (
-    `<section class="board container"></section>`
-  );
-};
+const getBoardTemplate = () => `<section class="board container"></section>`;
 
 export default class Board {
   constructor() {
@@ -12,7 +8,7 @@ export default class Board {
   }
 
   getTemplate() {
-    return boardTemplate();
+    return getBoardTemplate();
   }
 
   getElement() {

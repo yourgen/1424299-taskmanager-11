@@ -1,7 +1,7 @@
 import {months} from "../data/common-data.js";
 import {createElement, formatTime, formatDate} from "../utils.js";
 
-const taskTemplate = (task) => {
+const getTaskTemplate = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
 
   const date = dueDate ? formatDate(dueDate, months) : ``;
@@ -64,7 +64,7 @@ export default class Task {
   }
 
   getTemplate() {
-    return taskTemplate(this._task);
+    return getTaskTemplate(this._task);
   }
 
   getElement() {

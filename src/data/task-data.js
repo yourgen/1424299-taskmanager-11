@@ -2,9 +2,9 @@ import {defaultColors, days} from "./common-data.js";
 import {getRandomNumber} from "../utils.js";
 import {arrPicker} from "../utils.js";
 
-const TASK_COUNT = 24;
-const TASK_COUNT_START = 8;
-const TASK_COUNT_LOAD = 8;
+const TASKS_COUNT = 24;
+const TASKS_COUNT_START = 8;
+const TASKS_COUNT_LOAD = 8;
 
 const taskNames = [
   `Изучить теорию`, `Сделать домашку`, `Пройти интенсив на соточку`
@@ -44,4 +44,4 @@ const generateTasks = (count) => {
     .map(generateTask);
 };
 
-export {TASK_COUNT, TASK_COUNT_START, TASK_COUNT_LOAD, generateTasks};
+export {TASKS_COUNT, TASKS_COUNT_START, TASKS_COUNT_LOAD, generateTasks};

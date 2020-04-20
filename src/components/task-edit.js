@@ -1,5 +1,5 @@
 import {defaultColors, months} from "../data/common-data.js";
-import {formatTime, formatDate} from "../utils.js";
+import {formatTime, formatDate} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
 

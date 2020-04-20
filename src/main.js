@@ -33,15 +33,14 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new Task(task);
-  const editBtn = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editBtn.addEventListener(`click`, () => {
+  const taskEditComponent = new TaskEdit(task);
+
+  taskComponent.setEditBtnClickHandler(() => {
     replaceTaskToEdit();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  const taskEditComponent = new TaskEdit(task);
-  const editForm = taskEditComponent.getElement().querySelector(`form`);
-  editForm.addEventListener(`submit`, (evt) => {
+  taskEditComponent.setSubmitHandler((evt) => {
     evt.preventDefault();
     replaceEditToTask();
     document.removeEventListener(`keydown`, onEscKeyDown);
@@ -71,7 +70,7 @@ const renderBoard = (boardElement, tasks) => {
   const loadMoreBtnComponent = new LoadMoreBtn();
   render(boardElement, loadMoreBtnComponent);
 
-  loadMoreBtnComponent.getElement().addEventListener(`click`, () => {
+  loadMoreBtnComponent.setClickHandler(() => {
     const prevTasksCount = showingTasksCount;
     showingTasksCount = showingTasksCount + TASKS_COUNT_LOAD;
 

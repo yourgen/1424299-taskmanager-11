@@ -20,6 +20,6 @@ render(siteHeaderElement, new Menu());
 render(siteMainElement, new Filter(filters));
 
 const boardComponent = new Board();
-const boardController = new BoardController(boardComponent.getElement());
+const boardController = new BoardController(boardComponent);
 render(siteMainElement, boardComponent);
 boardController.render(tasks);

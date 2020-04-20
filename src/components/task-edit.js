@@ -98,7 +98,7 @@ const getTaskEditTemplate = (task) => {
                     </span>
                 </button>
 
-                ${dueDate && `<fieldset class="card__date-deadline">
+                ${dueDate ? `<fieldset class="card__date-deadline">
                   <label class="card__input-deadline-wrap">
                   <input
                       class="card__date"
@@ -108,7 +108,7 @@ const getTaskEditTemplate = (task) => {
                       value="${date} ${time}"
                   />
                   </label>
-                </fieldset>`}
+                </fieldset>` : ``}
 
                 <button class="card__repeat-toggle" type="button">
                     repeat:

@@ -13,6 +13,7 @@ import NoTasks from "./components/no-tasks.js";
 import LoadMoreBtn from './components/loadmore-btn';
 
 import {render, replace, remove} from "./utils/render.js";
+import BoardController from "./controllers/board.js";
 
 const renderTask = (taskListElement, task) => {
   const replaceTaskToEdit = () => {
@@ -60,7 +61,7 @@ const renderBoard = (boardElement, tasks) => {
   render(boardElement, new Sorting());
   render(boardElement, new TaskList());
 
-  const taskListElement = boardComponent.getElement().querySelector(`.board__tasks`);
+  const taskListElement = boardElement.querySelector(`.board__tasks`);
 
   let showingTasksCount = TASKS_COUNT_START;
   tasks

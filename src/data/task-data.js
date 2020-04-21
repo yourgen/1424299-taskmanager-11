@@ -1,6 +1,6 @@
 import {defaultColors, days} from "./common-data.js";
-import {getRandomNumber} from "../utils.js";
-import {arrPicker} from "../utils.js";
+import {getRandomNumber} from "../utils/common.js";
+import {arrPicker} from "../utils/common.js";
 
 const TASKS_COUNT = 24;
 const TASKS_COUNT_START = 8;

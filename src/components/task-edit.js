@@ -1,5 +1,7 @@
 import {defaultColors, months} from "../data/common-data.js";
-import {createElement, formatTime, formatDate} from "../utils.js";
+import {formatTime, formatDate} from "../utils/common.js";
+import AbstractComponent from "./abstract-component.js";
+
 
 const getRepeatingDaysTemplate = (repeatingDays) => {
   return (
@@ -96,7 +98,7 @@ const getTaskEditTemplate = (task) => {
                     </span>
                 </button>
 
-                ${dueDate && `<fieldset class="card__date-deadline">
+                ${dueDate ? `<fieldset class="card__date-deadline">
                   <label class="card__input-deadline-wrap">
                   <input
                       class="card__date"
@@ -106,7 +108,7 @@ const getTaskEditTemplate = (task) => {
                       value="${date} ${time}"
                   />
                   </label>
-                </fieldset>`}
+                </fieldset>` : ``}
 
                 <button class="card__repeat-toggle" type="button">
                     repeat:
@@ -137,25 +139,17 @@ const getTaskEditTemplate = (task) => {
   );
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractComponent {
   constructor(task) {
+    super();
     this._task = task;
-    this._element = null;
   }
 
   getTemplate() {
     return getTaskEditTemplate(this._task);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`form`)
+      .addEventListener(`submit`, handler);
   }
 }

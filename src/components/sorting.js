@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 
-const SortingType = {
+export const SortingType = {
   DATE_DOWN: `date-down`,
   DATE_UP: `date-up`,
   DEFAULT: `default`,
@@ -9,9 +9,9 @@ const SortingType = {
 const getSortingTemplate = () => {
   return (
     `<div class="board__filter-list">
-      <a href="#" data-sort-type="${SortingType.DEFAULT}" class="board__filter">SORT BY DEFAULT</a>
-      <a href="#" data-sort-type="${SortingType.DATE_UP}" class="board__filter">SORT BY DATE up</a>
-      <a href="#" data-sort-type="${SortingType.DATE_DOWN}" class="board__filter">SORT BY DATE down</a>
+      <a href="#" data-sorting-type="${SortingType.DEFAULT}" class="board__filter">SORT BY DEFAULT</a>
+      <a href="#" data-sorting-type="${SortingType.DATE_UP}" class="board__filter">SORT BY DATE up</a>
+      <a href="#" data-sorting-type="${SortingType.DATE_DOWN}" class="board__filter">SORT BY DATE down</a>
     </div>`
   );
 };
@@ -38,7 +38,7 @@ export default class Sorting extends AbstractComponent {
         return;
       }
 
-      const sortingType = evt.target.dataset.sortType;
+      const sortingType = evt.target.dataset.sortingType;
 
       if (this._currentSortingType === sortingType) {
         return;

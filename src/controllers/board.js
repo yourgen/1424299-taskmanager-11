@@ -44,6 +44,12 @@ const renderTask = (taskListElement, task) => {
   render(taskListElement, taskComponent);
 };
 
+const renderTasks = (taskListElement, tasks) => {
+  tasks.forEach((task) => {
+    renderTask(taskListElement, task);
+  });
+};
+
 const getSortedTasks = (tasks, sortingType, from, to) => {
   let sortedTasks = [];
   const showingTasks = tasks.slice();
@@ -85,9 +91,8 @@ export default class BoardController {
         const prevTasksCount = showingTasksCount;
         showingTasksCount = showingTasksCount + TASKS_COUNT_LOAD;
 
-        tasks
-          .slice(prevTasksCount, showingTasksCount)
-          .forEach((task) => renderTask(taskListElement, task));
+        const sortedTasks = getSortedTasks(tasks, this._sortingComponent.getSortingType(), prevTasksCount, showingTasksCount);
+        renderTasks(taskListElement, sortedTasks);
 
         if (showingTasksCount >= tasks.length) {
           remove(this._loadMoreBtnComponent);
@@ -109,22 +114,17 @@ export default class BoardController {
     const taskListElement = this._taskListComponent.getElement();
 
     let showingTasksCount = TASKS_COUNT_START;
-    tasks
-      .slice(0, showingTasksCount)
-      .forEach((task) => renderTask(taskListElement, task));
+    renderTasks(taskListElement, tasks.slice(0, showingTasksCount));
 
     renderLoadMoreBtn();
 
     this._sortingComponent.setSortingTypeChangeHandler((sortingType) => {
       showingTasksCount = TASKS_COUNT_START;
 
-      const sortedTasks = getSortedTasks(tasks, sortingType, 0, showingTasksCount);
-
       taskListElement.innerHTML = ``;
 
-      sortedTasks
-        .slice(0, showingTasksCount)
-        .forEach((task) => renderTask(taskListElement, task));
+      const sortedTasks = getSortedTasks(tasks, sortingType, 0, showingTasksCount);
+      renderTasks(taskListElement, sortedTasks);
 
       renderLoadMoreBtn();
     });

@@ -1,6 +1,6 @@
 import Task from "../components/task.js";
 import TaskEdit from "../components/task-edit.js";
-import {render, replace, remove} from "../utils/render.js";
+import {render, replace} from "../utils/render.js";
 
 export default class TaskController {
   constructor(container, onDataChange) {

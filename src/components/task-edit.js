@@ -1,16 +1,9 @@
 import {defaultColors, months} from "../data/common-data.js";
 import {formatTime, formatDate} from "../utils/common.js";
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
-
-const getRepeatingDaysTemplate = (repeatingDays) => {
-  return (
-    `<fieldset class="card__repeat-days">
-      <div class="card__repeat-days-inner">
-        ${getRepeatingDaysMarkup(repeatingDays)}
-      </div>
-    </fieldset>`
-  );
+const isRepeating = (repeatingDays) => {
+  return Object.values(repeatingDays).some(Boolean);
 };
 
 const getRepeatingDaysMarkup = (repeatingDays) => {
@@ -58,18 +51,23 @@ const getColorsMarkup = (colors, currentColor) => {
 
 };
 
-const getTaskEditTemplate = (task) => {
-  const {description, dueDate, repeatingDays, color} = task;
+const getTaskEditTemplate = (task, options = {}) => {
+  const {description, dueDate, color} = task;
+  const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
 
-  const date = dueDate ? formatDate(dueDate, months) : ``;
-  const time = dueDate ? formatTime(dueDate) : ``;
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isBlockSaveBtn = (isDateShowing && isRepeatingTask) ||
+    (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
-  const checkRepeat = (repeat, noRepeat = ``) => Object.values(repeatingDays).some(Boolean) ? repeat : noRepeat;
+  const date = (isDateShowing && dueDate) ? formatDate(dueDate, months) : ``;
+  const time = (isDateShowing && dueDate) ? formatTime(dueDate) : ``;
 
-  const deadlineClass = dueDate instanceof Date && dueDate < Date.now() ? `card--deadline` : ``;
-
+  const repeatClass = isRepeatingTask ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
+  const repeatingDaysMarkup = getRepeatingDaysMarkup(activeRepeatingDays);
+  const colorsMarkup = getColorsMarkup(defaultColors, color);
   return (
-    `<article class="card card--edit card--${color} ${checkRepeat(`card--repeat`)} ${deadlineClass}">
+    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -94,11 +92,11 @@ const getTaskEditTemplate = (task) => {
                 <button class="card__date-deadline-toggle" type="button">
                     date: 
                     <span class="card__date-status">
-                      ${dueDate ? `yes` : `no`}
+                      ${isDateShowing ? `yes` : `no`}
                     </span>
                 </button>
 
-                ${dueDate ? `<fieldset class="card__date-deadline">
+                ${isDateShowing ? `<fieldset class="card__date-deadline">
                   <label class="card__input-deadline-wrap">
                   <input
                       class="card__date"
@@ -113,24 +111,28 @@ const getTaskEditTemplate = (task) => {
                 <button class="card__repeat-toggle" type="button">
                     repeat:
                     <span class="card__repeat-status">
-                      ${checkRepeat(`yes`, `no`)}
+                      ${isRepeatingTask ? `yes` : `no`}
                     </span>
                 </button>
 
-                ${checkRepeat(getRepeatingDaysTemplate(repeatingDays))}
+                ${isRepeatingTask ? `<fieldset class="card__repeat-days">
+                  <div class="card__repeat-days-inner">
+                    ${repeatingDaysMarkup}
+                  </div>
+                </fieldset>` : ``}
               </div>
             </div>
 
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                ${getColorsMarkup(defaultColors, color)}
+                ${colorsMarkup}
               </div>
             </div>
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit">save</button>
+            <button class="card__save" type="submit" ${isBlockSaveBtn ? `disabled` : ``}>save</button>
             <button class="card__delete" type="button">delete</button>
           </div>
         </div>
@@ -139,17 +141,66 @@ const getTaskEditTemplate = (task) => {
   );
 };
 
-export default class TaskEdit extends AbstractComponent {
+export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
     super();
     this._task = task;
+    this._isDateShowing = !!task.dueDate;
+    this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
+    this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._submitHandler = null;
+
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return getTaskEditTemplate(this._task);
+    return getTaskEditTemplate(this._task, {
+      isDateShowing: this._isDateShowing,
+      isRepeatingTask: this._isRepeatingTask,
+      activeRepeatingDays: this._activeRepeatingDays,
+    });
   }
+
+  recoverListeners() {
+    this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
   setSubmitHandler(handler) {
     this.getElement().querySelector(`form`)
       .addEventListener(`submit`, handler);
+
+    this._submitHandler = handler;
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.card__date-deadline-toggle`)
+      .addEventListener(`click`, () => {
+        this._isDateShowing = !this._isDateShowing;
+        console.log(this._isDateShowing);
+        this.rerender();
+      });
+
+    element.querySelector(`.card__repeat-toggle`)
+      .addEventListener(`click`, () => {
+        this._isRepeatingTask = !this._isRepeatingTask;
+
+        this.rerender();
+      });
+
+    const repeatDays = element.querySelector(`.card__repeat-days`);
+    if (repeatDays) {
+      repeatDays.addEventListener(`change`, (evt) => {
+        this._activeRepeatingDays[evt.target.value] = evt.target.checked;
+
+        this.rerender();
+      });
+    }
   }
 }

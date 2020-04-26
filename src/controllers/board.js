@@ -75,6 +75,7 @@ export default class BoardController {
   }
 
   _renderLoadMoreBtn() {
+    remove(this._loadMoreBtnComponent);
     if (this._showingTasksCount >= this._tasks.length) {
       return;
     }

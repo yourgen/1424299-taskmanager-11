@@ -20,14 +20,14 @@ export default class Sorting extends AbstractComponent {
   constructor() {
     super();
 
-    this._currenSortingType = SortingType.DEFAULT;
+    this._currentSortingType = SortingType.DEFAULT;
   }
 
   getTemplate() {
     return getSortingTemplate();
   }
   getSortingType() {
-    return this._currenSortingType;
+    return this._currentSortingType;
   }
 
   setSortingTypeChangeHandler(handler) {

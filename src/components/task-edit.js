@@ -40,7 +40,7 @@ const getColorsMarkup = (colors, currentColor) => {
           ${currentColor === color ? `checked` : ``}
         />
         <label 
-          for="color-${color}--${index}" 
+          for="color-${color}-${index}" 
           class="card__color card__color--${color}"
         >
           ${color}
@@ -148,7 +148,6 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
-    this._color = task.color;
     this._submitHandler = null;
 
     this._subscribeOnEvents();
@@ -207,8 +206,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     const colorBtns = element.querySelectorAll(`.card__color-input`);
     colorBtns.forEach((btn) => {
       btn.addEventListener(`click`, (evt) => {
-        console.log(`test`);
-        this._color = evt.target.value;
+        this._task.color = evt.target.value;
 
         this.rerender();
       });

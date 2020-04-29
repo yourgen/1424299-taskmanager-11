@@ -1,4 +1,4 @@
-import {defaultColors, months} from "../data/common-data.js";
+import {defaultColors} from "../data/common-data.js";
 import {formatTime, formatDate} from "../utils/common.js";
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
@@ -63,7 +63,7 @@ const getTaskEditTemplate = (task, options = {}) => {
   const isBlockSaveBtn = (isDateShowing && isRepeatingTask) ||
     (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
-  const date = (isDateShowing && dueDate) ? formatDate(dueDate, months) : ``;
+  const date = (isDateShowing && dueDate) ? formatDate(dueDate) : ``;
   const time = (isDateShowing && dueDate) ? formatTime(dueDate) : ``;
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
@@ -204,8 +204,13 @@ export default class TaskEdit extends AbstractSmartComponent {
       const dateElement = this.getElement().querySelector(`.card__date`);
       this._flatpickr = flatpickr(dateElement, {
         altInput: true,
+        altFormat: `j F H:i`,
+        dateFormat: `Y-m-d`,
         allowInput: true,
         defaultDate: this._task.dueDate || `today`,
+        enableTime: true,
+        // eslint-disable-next-line camelcase
+        time_24hr: true
       });
     }
   }

@@ -1,4 +1,3 @@
-import {months} from "../data/common-data.js";
 import {formatTime, formatDate} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
@@ -16,11 +15,14 @@ const createBtnMarkup = (name, isActive = true) => {
 const getTaskTemplate = (task) => {
   const {description, dueDate, repeatingDays, color} = task;
 
-  const date = dueDate ? formatDate(dueDate, months) : ``;
-  const time = dueDate ? formatTime(dueDate) : ``;
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isDateShowing = !!dueDate;
+
+  const date = isDateShowing ? formatDate(dueDate) : ``;
+  const time = isDateShowing ? formatTime(dueDate) : ``;
 
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
-  const deadlineClass = dueDate instanceof Date && dueDate < Date.now() ? `card--deadline` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
 
   const editBtn = createBtnMarkup(`edit`);
   const archiveBtn = createBtnMarkup(`archive`, !task.isArchive);

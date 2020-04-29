@@ -1,19 +1,11 @@
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : `${value}`;
-};
+import moment from "moment";
 
 export const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
-  const minutes = castTimeFormat(date.getMinutes());
-
-  return `${hours}:${minutes}`;
+  return moment(date).format(`HH:mm`);
 };
 
-export const formatDate = (date, months) => {
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-
-  return `${day} ${month}`;
+export const formatDate = (date) => {
+  return moment(date).format(`DD MMMM`);
 };
 
 export const getRandomNumber = (min, max) => {
